@@ -25,18 +25,19 @@ public class User extends SqlCon {
     private int id;
     private String username;
 
+
     
     private User(){
         
     }
     
-    public static Integer validateCredentials(String email, String password) throws SQLException, DBException {
+    public static User validateCredentials(String email, String password) throws SQLException, DBException {
        Integer validatedUserID = null;
-        
+        User user = null;
         //We'll use a query to get the infromation we want to initialize a user with
         StringBuilder query = new StringBuilder();
 
-        query.append("SELECT email, password, user_id ");
+        query.append("SELECT name,email, password, user_id ");
         query.append("FROM userinfo ");
         query.append(String.format("WHERE email = '%s';", email));
 
@@ -47,7 +48,9 @@ public class User extends SqlCon {
                 //If the credentials are correct, we'll return the id of the current user
                 if(resultSet.getString("email").equals(email) &&
                         resultSet.getString("password").equals(password)){
-                    validatedUserID = resultSet.getInt("user_id");
+                    user = new User();
+                    user.id = resultSet.getInt("user_id");
+                    user.username = resultSet.getString("name");
                 }
                 else{
                     throw new DBException("Invalid password entered");
@@ -60,7 +63,7 @@ public class User extends SqlCon {
             statement.close();
         }
         
-        return validatedUserID;
+        return user;
     }
     
     public static User getUser(int userID) throws SQLException, DBException{
@@ -69,10 +72,10 @@ public class User extends SqlCon {
         //We'll use a query to get the infromation we want to initialize a user with
         StringBuilder query = new StringBuilder();
 
-        query.append("SELECT userid, username");
-        query.append(" FROM login1 ");
+        query.append("SELECT user_id, name");
+        query.append(" FROM userinfo ");
         //query.append("JOIN NeosSQL.UserInfo on NeosSQL.Users.id = NeosSQL.UserInfo.id ");
-        query.append(String.format(" WHERE userid = %d;", userID));
+        query.append(String.format(" WHERE user_id = %d;", userID));
 
         try (Statement statement = dbConnection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query.toString());
@@ -80,8 +83,8 @@ public class User extends SqlCon {
             if(resultSet.next()){                
                 //Each singular result we iterate through is a row in the table
                 user = new User();
-                user.id = resultSet.getInt("userid");
-                user.username = resultSet.getString("username");
+                user.id = resultSet.getInt("user_id");
+                user.username = resultSet.getString("name");
 //                user.gold = resultSet.getInt("gold");
             }
             else{
@@ -94,7 +97,7 @@ public class User extends SqlCon {
         return user;
     }
     
-    public static User createUser(String username, String password)
+    public static User createUser(String username, String password,String email,String school)
         throws SQLException, DBException{
         dbConnection.setAutoCommit(false);
         
@@ -120,11 +123,11 @@ public class User extends SqlCon {
            // insertUserStatement.setString(4, lastName);
             //insertUserStatement.executeUpdate(query.toString());
             PreparedStatement pre;
-            pre = dbConnection.prepareStatement("INSERT INTO login1 (username, password,first_name,last_name,userid)  values (?,?,?,?,?)");
+            pre = dbConnection.prepareStatement("INSERT INTO userinfo (name, email,password,school,user_id)  values (?,?,?,?,?)");
             pre.setString(1,username);
-            pre.setString(2, password);
-            pre.setString(3, "haim");
-            pre.setString(4,"cohen");
+            pre.setString(2, email);
+            pre.setString(3, password);
+            pre.setString(4,school);
             pre.setString(5, null);
 	 //   pre.setBinaryStream(4, fis, (int) picfile.length());
 	    int count = pre.executeUpdate();
@@ -152,16 +155,16 @@ public class User extends SqlCon {
 
             //Execute the statement
             
-            query = new StringBuilder("SET @userid = last_insert_id(); ");
+            query = new StringBuilder("SET @user_id = last_insert_id(); ");
             PreparedStatement setIDStatement = dbConnection.prepareStatement(query.toString());
             setIDStatement.executeUpdate();
             dbConnection.commit();
-            query = new StringBuilder("SELECT @userid");
+            query = new StringBuilder("SELECT @user_id");
             Statement selectIDStatement = dbConnection.createStatement();
             
             ResultSet resultSet = selectIDStatement.executeQuery(query.toString());
             if(resultSet.next()){
-                createdUser = getUser(resultSet.getInt("@userid"));
+                createdUser = getUser(resultSet.getInt("@user_id"));
             }
         //    createdUser = getUser(resultSet.getInt("@userid"));
         //    insertUserStatement.close();
@@ -197,6 +200,9 @@ public class User extends SqlCon {
        // }
         
         return createdUser;
+    }
+    public int getId(){
+        return id;
     }
     
     public String getUsername(){

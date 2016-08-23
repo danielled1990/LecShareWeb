@@ -11,11 +11,12 @@ and open the template in the editor.
         <script src="js/jquery-2.2.3.min.js" type="text/javascript"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+    <h1 id ="hello"></h1>
     <body>
         <div>Now BroadCasting</div>
         <select id="onlinebroadcasting" size = 5 onchange="changeFunc(value);">
-          
-            
+
+
         </select>
         <div id="messages"></div>
         <script>
@@ -24,114 +25,134 @@ and open the template in the editor.
             var websocket;
             var streamer;
             var messages = document.getElementById("messages");
-            $( document ).ready(function() {
+            $(document).ready(function () {
+                   $.ajax({
+                    type: 'GET',
+                 //   dataType:'JSON',
+                    //data:gameObject.array[num],  
+                    url: "/../restapp/Actions/Account/hello",
+                     
+             //       timeout: 5000,
+                    error: function() {
+                        console.error("Failed to send ajax");
+                    },
+                    success: function(jsonObject) {  
+                        console.log(jsonObject);
+                        $("#hello").html("Hello "+jsonObject+"!" );
+                  //   var hud = HUDService.getBrowserConsole();
+                     //hud.jsterm.clearOutput(true);
+                     
+                    }
+                        
+                });
                 websocket = new WebSocket("ws://localhost:8080/restapp/online");
-                websocket.onopen = function(event){
+                websocket.onopen = function (event) {
                     // For reasons I can't determine, onopen gets called twice
                     // and the first time event.data is undefined.
                     // Leave a comment if you know the answer.
-                   // $("messageinput").disable(false);
-                   console.log(event.data);
-                    if(event.data === undefined)
+                    // $("messageinput").disable(false);
+                    console.log(event.data);
+                    if (event.data === undefined)
                         return;
- 
+
                     writeResponse(event.data);
                     console.log(event.data);
                 };
-                websocket.onmessage = function(event){
-                if(event.data==="Connection Established"){
-                    setInterval(function(){
-                    websocket.send(JSON.stringify({
-                    id: "client1",
-                    status:"refreshing"
-                    })); }, 4000);
-                    console.log(event.data);
-                      
-                  }
-                  else{
-                    var data = event.data; 
-                    var json = JSON.parse(data);
-                    console.log(json);
-                    console.log(json.type);
-                   // console.log(json.streamersName[0]);
-                    
-                     if(json.type=="streamers")
-                     {
-                         $('#onlinebroadcasting').empty();
-                      //   console.log(data);
-                      //   console.log(data.streamersName.length);
-                         var list = json.streamersName;
-                         console.log("size of list is" + list.length);
-                         for(var i=0;i<list.length;i++)
+                websocket.onmessage = function (event) {
+                    if (event.data === "Connection Established") {
+                        setInterval(function () {
+                            websocket.send(JSON.stringify({
+                                id: "client1",
+                                status: "refreshing"
+                            }));
+                        }, 4000);
+                        console.log(event.data);
+
+                    }
+                    else {
+                        var data = event.data;
+                        var json = JSON.parse(data);
+                        console.log(json);
+                        console.log(json.type);
+                        // console.log(json.streamersName[0]);
+
+                        if (json.type == "streamers")
                         {
-                            //console.log("in loop");
-                           $('#onlinebroadcasting').append('<option value ='+list[i]+' ' + 'class = broadcasting>'+ list[0]+'</option>');
-                           //console.log(list[i]);
-                         }
-                     
-                     }
-                     if(json.type=="yes")
-                     {
-                         console.log("you are here")
-                         writeResponse("yout request has been aprooved...");
-                        //  messages.innerHTML += "<br/>" + "yout request has been aprooved...";
-                         console.log("you are here")
-                         setTimeout(startNewPage, 3000);
-                        // startNewPage();
-                     }
-                     
+                            $('#onlinebroadcasting').empty();
+                            //   console.log(data);
+                            //   console.log(data.streamersName.length);
+                            var list = json.streamersName;
+                            console.log("size of list is" + list.length);
+                            for (var i = 0; i < list.length; i++)
+                            {
+                                //console.log("in loop");
+                                $('#onlinebroadcasting').append('<option value =' + list[i] + ' ' + 'class = broadcasting>' + list[0] + '</option>');
+                                //console.log(list[i]);
+                            }
 
-                      
-                     }
+                        }
+                        if (json.type == "yes")
+                        {
+                            console.log("you are here")
+                            writeResponse("yout request has been aprooved...");
+                            //  messages.innerHTML += "<br/>" + "yout request has been aprooved...";
+                            console.log("you are here")
+                            setTimeout(startNewPage, 3000);
+                            // startNewPage();
+                        }
 
 
-              //    console.log(event.data);
+
+                    }
+
+
+                    //    console.log(event.data);
 
                 };
-             /*   websocket.onclose = function(event){
-                    //writeResponse("Connection closed");
-                };*/
+                /*   websocket.onclose = function(event){
+                 //writeResponse("Connection closed");
+                 };*/
 
-        
-             });
-              /*websocket.onmessage = function(event){
-                  if(event.data.type=="streamers")
-                  {
-                      var list = event.data.streamersName;
-                      for(var i=0;list.length;i++)
-                      {
-                           $('#onlinebroadcasting').append('<option Value ='+event.data.name + 'class = broadcasting </option>');
-                      }
-                     
-                  }
-                  console.log(event.data);
 
-                };*/
-                
-$('.broadcasting').on('change', function() {
+            });
+            /*websocket.onmessage = function(event){
+             if(event.data.type=="streamers")
+             {
+             var list = event.data.streamersName;
+             for(var i=0;list.length;i++)
+             {
+             $('#onlinebroadcasting').append('<option Value ='+event.data.name + 'class = broadcasting </option>');
+             }
+             
+             }
+             console.log(event.data);
+             
+             };*/
 
-  
-});
+            $('.broadcasting').on('change', function () {
 
-   function changeFunc($i) {
-     streamer = $i;
-     websocket.send(JSON.stringify({
-      id: "client1",
-      connectTo:streamer,
-      type:"connect"
-      }));
-      //window.location.href = "newhtml1.html";
-      writeResponse("sending request to join broadcast...");
-      //messages.innerHTML += "<br/>" + "sending request to join broadcast..."
 
-   }
-   function startNewPage(){
-       window.location.href = "newhtml1.html";
-   }
-   function writeResponse(text){
+            });
+
+            function changeFunc($i) {
+                streamer = $i;
+                websocket.send(JSON.stringify({
+                    id: "client1",
+                    connectTo: streamer,
+                    type: "connect"
+                }));
+                //window.location.href = "newhtml1.html";
+                writeResponse("sending request to join broadcast...");
+                //messages.innerHTML += "<br/>" + "sending request to join broadcast..."
+
+            }
+            function startNewPage() {
+                window.location.href = "newhtml1.html";
+            }
+            function writeResponse(text) {
                 messages.innerHTML += "<br/>" + text;
-   }
+            }
         </script>
-        
+
     </body>
 </html>
