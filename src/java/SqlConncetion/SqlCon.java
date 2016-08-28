@@ -17,8 +17,8 @@ public abstract class  SqlCon {
    // private String user = "root";
    // private String password = "DAnielle136";
     private static final String DB_NAME = "LecShare";
-    private static final String DB_URL = String.format("jdbc:mysql://localhost:3306/%s?user=root&password=DAnielle136!&autoReconnect=true", DB_NAME);
-    private static final String SERVER_URL = "jdbc:mysql://localhost:3306?user=root&password=DAnielle136!&autoReconnect=true";
+    private static final String DB_URL = String.format("jdbc:mysql://localhost:3306/%s?user=root&password=562345!&autoReconnect=true", DB_NAME);
+    private static final String SERVER_URL = "jdbc:mysql://localhost:3306?user=root&password=562345!&autoReconnect=true";
     private static final String SQL_DRIVER = "com.mysql.jdbc.Driver";
     
     public static Connection dbConnection = null;

@@ -17,11 +17,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -76,11 +80,15 @@ public class Account {
     }
 
     @POST
-    @Path("login")
-    public String loginUser(@FormParam("target_page") String targetPage, @FormParam("email") String email, @FormParam("password") String password, @FormParam("fail_redirect_login") boolean failRedirectLogin) throws ServletException, IOException {
+    
+   // @Consumes({MediaType.APPLICATION_JSON})
+   // @Produces({MediaType.TEXT_PLAIN})
+    @Path("/login")
+    public String loginUser( @FormParam("email") String email, @FormParam("password") String password) throws ServletException, IOException {
         boolean loggedIn = false;
         Integer id = null;
         User user = null;
+        String res = "kaki";
         PrintWriter out= servletResponse.getWriter();
         //Check if we're already logged in
         if (servletRequest.getSession(false) != null) {
@@ -103,17 +111,16 @@ public class Account {
                 }
             } catch (SQLException | DBException ex) {
                 //Upon connection error, do we go back to the login page or the error page?
-                if (failRedirectLogin) {
-                    Navigator.Navigate(servletRequest, servletResponse, servletContext, "newhtml.html", targetPage);
-                } else {
-                    RequestDispatcher rd = servletContext.getRequestDispatcher("/index.html");
+                // else {
+                 /*   RequestDispatcher rd = servletContext.getRequestDispatcher("/index.html");
                     
                     out.println("<font color=red>Either user name or password is wrong.</font>");
                  //   servletResponse.sendRedirect("/restapp/index.html"); 
                  //   return out;
-                    rd.include(servletRequest, servletResponse);
+                    rd.include(servletRequest, servletResponse);*/
+                //    return "no ok";
                     
-                }
+               // }
             }
         }
 
@@ -130,14 +137,13 @@ public class Account {
    //         servletResponse.addCookie(idCookie);
 
             //  Navigator.Navigate(servletRequest, servletResponse, servletContext, "newhtml.html");
-            servletResponse.sendRedirect("/restapp/newhtml.html");
-            return "ok";
+          //  servletResponse.sendRedirect("/restapp/pdfStampsVideos.html");
+            res = "ok";
 
         }
         
-
-//    return gson.toJson(loggedIn);
-        return null;
+       // return gson.toJson(res);
+       return res;
         
     }
     @GET
@@ -146,4 +152,60 @@ public class Account {
         String name = (String)servletRequest.getSession().getAttribute("username");
         return name;
     }
+    @Path("login2")
+    @POST
+    public String get( @FormParam("email") String email, @FormParam("password") String password) throws ServletException, IOException {
+        boolean loggedIn = false;
+        Integer id = null;
+        User user = null;
+        String res = "kaki";
+                if (servletRequest.getSession(false) != null) {
+            //If we already, make sure that the credentials are correct
+            if (servletRequest.getSession().getAttribute("username") == email
+                    && servletRequest.getSession().getAttribute("password") == password) {
+                loggedIn = true;
+                id = Integer.parseInt(servletRequest.getSession().getAttribute("userID").toString());
+            }
+        }
+         if (!loggedIn) {
+            try {
+                //We'll try to login with our details, validating them against the server
+                user = User.validateCredentials(email, password);
+
+                if (user != null) {
+                    loggedIn = true;
+                }
+            } catch (SQLException | DBException ex) {
+                //Upon connection error, do we go back to the login page or the error page?
+                // else {
+                 /*   RequestDispatcher rd = servletContext.getRequestDispatcher("/index.html");
+                    
+                    out.println("<font color=red>Either user name or password is wrong.</font>");
+                 //   servletResponse.sendRedirect("/restapp/index.html"); 
+                 //   return out;
+                    rd.include(servletRequest, servletResponse);*/
+                    return "no ok";
+                    
+               // }
+            }
+        }
+         if (loggedIn && user != null) {
+            //Make sure our credentials are saved this time.
+            servletRequest.getSession().setAttribute("username", user.getUsername());
+            servletRequest.getSession().setAttribute("password", password);
+            servletRequest.getSession().setAttribute("userid", user.getId());
+
+  //          Cookie idCookie = new Cookie("id", id.toString());
+  //          idCookie.setPath("/");
+  //          idCookie.setMaxAge(30 * 24 * 60 * 60);
+   //         servletResponse.addCookie(idCookie);
+
+            //  Navigator.Navigate(servletRequest, servletResponse, servletContext, "newhtml.html");
+          //  servletResponse.sendRedirect("/restapp/pdfStampsVideos.html");
+            res = "ok";
+
+        }
+        return res;
+    }
+    
 }

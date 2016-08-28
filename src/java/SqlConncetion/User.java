@@ -72,10 +72,10 @@ public class User extends SqlCon {
         //We'll use a query to get the infromation we want to initialize a user with
         StringBuilder query = new StringBuilder();
 
-        query.append("SELECT user_id, name");
+        query.append("SELECT userID, name");
         query.append(" FROM userinfo ");
         //query.append("JOIN NeosSQL.UserInfo on NeosSQL.Users.id = NeosSQL.UserInfo.id ");
-        query.append(String.format(" WHERE user_id = %d;", userID));
+        query.append(String.format(" WHERE userID = %d;", userID));
 
         try (Statement statement = dbConnection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query.toString());
@@ -83,7 +83,7 @@ public class User extends SqlCon {
             if(resultSet.next()){                
                 //Each singular result we iterate through is a row in the table
                 user = new User();
-                user.id = resultSet.getInt("user_id");
+                user.id = resultSet.getInt("userID");
                 user.username = resultSet.getString("name");
 //                user.gold = resultSet.getInt("gold");
             }
@@ -123,7 +123,7 @@ public class User extends SqlCon {
            // insertUserStatement.setString(4, lastName);
             //insertUserStatement.executeUpdate(query.toString());
             PreparedStatement pre;
-            pre = dbConnection.prepareStatement("INSERT INTO userinfo (name, email,password,school,user_id)  values (?,?,?,?,?)");
+            pre = dbConnection.prepareStatement("INSERT INTO userinfo (name, email,password,school,userID)  values (?,?,?,?,?)");
             pre.setString(1,username);
             pre.setString(2, email);
             pre.setString(3, password);

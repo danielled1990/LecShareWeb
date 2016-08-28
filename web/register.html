@@ -5,19 +5,88 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-<form action="/../restapp/Actions/Account/register" method="post">  
-Name:<input type="text" name="username"/><br/><br/>  
-Password:<input type="password" name="password"/><br/><br/>  
-confirmed password:<input type ="password" name="confirmed passwored"/><br/><br/>
-email<input type ="text" name="email"/><br><br>
-school:  <select name="schools">
-    <option value ="select option">---select option---</option>
-    <option value="Computer Science">Computer Science</option>
-    <option value="Economics">Economics</option>
-    <option value="Psycology">Psycology</option>
-    <option value="Nursing">Nursing</option>
-  </select>
-<br><br>
-<input type="submit" value="register"/>  
-</form>  
+    <head>
+        <meta content="width=device-width, initial-scale=1.0"  charset="UTF-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+        <style type="text/css">
+            body{
+                background-color:#83529a;
+            }
+            form{
+                alignment-adjust: central;
+                background: #ddb6f0;
+                //padding: 50px;
+               // border-radius: 10px;
+                //box-shadow: 0 0px 12px rgba(0,0,0,.74);
+            }
+            .panel-default > .panel-heading {
+                background: #9083a9; 
+                color: white; 
+                border-color: white;
+                box-shadow: 0 0px 12px rgba(0,0,0,.74);         
+            }
+            .panel-body {
+                background: #ddb6f0;
+                border-radius: 5px;
+                padding: 50px;
+                box-shadow: 0 0px 12px rgba(0,0,0,.74);
+            }
+        </style>
+    </head>
+    
+    <body>  
+        <br>
+          <div class="container">
+           <div class="row">
+               <div class="col-md-offset-3 col-md-6">
+                   
+                 <div class="panel panel-default">
+                    <div style="height: 50px; padding:12px;font-size: 70px;" class="panel-heading">
+                        <h2 class="panel-title" style="font-size: 20px;"><b>Registration</b></h2>
+                    </div>
+                 <div class="panel-body" >
+                     
+                  <form action="/../restapp/Actions/Account/register" method="post">
+                     <div class="form-group">
+                      <label for="username">Full name</label>
+                      <input type="text" class="form-control" id="username" name="username" placeholder="Full name">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <label for="confirmed passwored">Confirm password</label>
+                      <input type="password" class="form-control" id="confirmed passwored" name="confirmed passwored" placeholder="Confirm password">
+                    </div>
+                      <label for="schools">Select School:</label>
+                      <select name="schools" class="form-control">
+                    <option value ="select option">---select option---</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Economics">Economics and Management</option>
+                    <option value="Information Systems">Information Systems Management</option>
+                    <option value="Behavioral Sciences">Behavioral Sciences</option>
+                    <option value="Government">Government and Society</option>
+                    <option value="Nursing">Nursing Sciences</option>
+                  </select>
+                      <br><br>
+                      
+                 <center><button type="submit" class="btn btn-success" value="register">Sign Up</button></center>
+                </form>
+                   
+               </div>
+           </div>
+       </div>
+                                <!-- Latest compiled and minified JavaScript -->
+     <script src="js/jquery-2.2.3.min.js" type="text/javascript"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
 </html>

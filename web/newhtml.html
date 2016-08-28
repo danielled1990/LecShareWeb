@@ -26,6 +26,7 @@ and open the template in the editor.
             var streamer;
             var messages = document.getElementById("messages");
             $(document).ready(function () {
+                 websocket = new WebSocket("ws://localhost:8080/restapp/online");
                    $.ajax({
                     type: 'GET',
                  //   dataType:'JSON',
@@ -45,8 +46,11 @@ and open the template in the editor.
                     }
                         
                 });
-                websocket = new WebSocket("ws://localhost:8080/restapp/online");
+                console.log("in here");
+               
+                console.log("in here2");
                 websocket.onopen = function (event) {
+                    console.log("in here2");
                     // For reasons I can't determine, onopen gets called twice
                     // and the first time event.data is undefined.
                     // Leave a comment if you know the answer.

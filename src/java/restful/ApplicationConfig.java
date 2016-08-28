@@ -34,6 +34,7 @@ public class ApplicationConfig extends Application {
         resources.add(restful.Records.class);
         resources.add(restful.Records.CORSFilter.class);
         resources.add(restful.ServiceResource.class);
+        resources.add(restful.pdfstamps.class);
     }
     
 }

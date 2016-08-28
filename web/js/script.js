@@ -56,7 +56,7 @@ function initialize(){
     // Update the controls on load
     updateTimerDisplay();
     updateProgressBar();
-    player.loadVideoById(videoid);
+    
     // Clear any old interval.
     clearInterval(time_update_interval);
 
@@ -66,7 +66,7 @@ function initialize(){
         updateTimerDisplay();
         updateProgressBar();
     }, 1000);
-
+    player.loadVideoById(videoid);
 
     $('#volume-input').val(Math.round(player.getVolume()));
 }
