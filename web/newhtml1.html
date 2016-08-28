@@ -8,6 +8,11 @@
 
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css">
+        
+                        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     </head>
     <body>
@@ -57,7 +62,7 @@
 
 
             $(document).ready(function () {
-                webSocketTochat = new WebSocket("ws://localhost:8080/restapp/chat");
+                webSocketTochat = new WebSocket("ws://localhost:8084/restapp/chat");
                 webSocketTochat.onopen = function (event) {
                     // For reasons I can't determine, onopen gets called twice
                     // and the first time event.data is undefined.
@@ -96,7 +101,7 @@
                     writeResponse("WebSocket is already opened.");
                     return;
                 }
-                webSocket = new WebSocket("ws://localhost:8080/restapp/image");
+                webSocket = new WebSocket("ws://localhost:8084/restapp/image");
 
                 webSocket.binaryType = "arraybuffer";
                 /**
@@ -148,7 +153,7 @@
 
             }
             function openSecondSocket() {
-                web2 = new WebSocket("ws://localhost:8080/restapp/image");
+                web2 = new WebSocket("ws://localhost:8084/restapp/image");
                 web2.onopen = function (event) {
                     // For reasons I can't determine, onopen gets called twice
                     // and the first time event.data is undefined.
@@ -219,13 +224,7 @@
                 messageToChat.value="";
             }
         </script>
-
-
-
-
-
-
-        
+   
         <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script src="https://www.youtube.com/iframe_api"></script>
         <script src="js/script.js"></script>

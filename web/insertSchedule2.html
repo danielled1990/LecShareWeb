@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Insert semester schedule</title>
+        <meta charset="UTF-8">
+                <script src="js/jquery-2.2.3.min.js" type="text/javascript"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+                <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        
+               <style type="text/css">
+            body{
+                alignment-adjust: central;
+                background-color:#ddb6f0;
+            }
+            form{
+               // alignment-adjust: central;
+              //  background-color:#83529a;
+              //  padding: 70px;
+               // border-radius: 3px;
+               // box-shadow: 0 0px 12px rgba(0,0,0,.74);
+            }
+            h1{
+                color: white;
+                text-align: center;
+            }
+            .container{
+                alignment-adjust: central;
+                background-color:#83529a;
+                padding: 50px;
+                border-radius: 3px;
+                box-shadow: 0 0px 12px rgba(0,0,0,.74);
+            }
+        </style>
+    </head>
+    <body>
+        
+        <br><br>
+<h1>Enter your courses for this semester:</h1>
+<br><br><br>
+ <div class="container">
+  <div class="row">
+   <div class="col-md-offset-3 col-md-6">
+    <form method="post">
+        <div>
+             <label for="semester" style="color:white">Choose semester:</label><br>
+                <select name="semester" class="selectpicker" data-width="fit" data-live-search="true">
+                  <option data-tokens="a">A</option>
+                  <option data-tokens="b">B</option>
+                  <option data-tokens="c">C</option>
+                </select>
+             
+        </div>
+           <div>
+               <label for="courses" style="color:white">Select course:</label><br>
+                <select name="courses" class="selectpicker" data-width="fit" data-live-search="true">
+                  <option data-tokens="Probability">Intro to Probability theory</option>
+                  <option data-tokens="advanced c">Advanced Programming in C</option>
+                  <option data-tokens="Complexity">Complexity</option>
+                  <option data-tokens="Computability">Computability</option>
+                  <option data-tokens="Algorithms">Algorithms</option>
+                  <option data-tokens="Linear Algebra 1">Linear Algebra 1</option>
+                  <option data-tokens="Linear Algebra 2">Linear Algebra 2</option>
+                  <option data-tokens="Discrete Mathematics">Discrete Mathematics</option>
+                  <option data-tokens="Computer Structure">Computer Structure</option>
+                  <option data-tokens="Computer Architecture">Computer Architecture</option> 
+                </select>
+          </div>
+          <div>
+              <input type="button" class="btn btn-success" name="addCourse" value="Add"> </input>
+          </div>
+
+    </form>
+   </div>
+  </div>
+ </div>
+           
+        
+              <script src="js/jquery-2.2.3.min.js" type="text/javascript"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+     <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+    </body>
+</html>
