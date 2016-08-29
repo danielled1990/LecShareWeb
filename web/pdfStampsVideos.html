@@ -6,52 +6,124 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>watch a lesson</title>
+        <title>Watch Recorded lesson</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div id="video-placeholder"></div>
-        <ul id = "listofimages">
-
-        </ul>
-        <div id ="imgaeDiv">
-            <img id="image"></<img>
-        </div>
-        <div class ="imageroll">
-            <h3> image taken during class</h3>
-        </div>
-        <link rel="stylesheet" href="pdfStampsVideos.css" type="text/css">
         <script src="js/jquery-2.2.3.min.js" type="text/javascript"></script>
-        <script src="https://www.youtube.com/iframe_api"></script>
-        <script>
-                    var player,
-                    time_update_interval = 3;
-                    var videoid;
-                    var pdf;
-                    var pdfa;
-                    /* class pdfTimeAndIndex{
-                     var time;
-                     var index;
-                     };*/
 
-                    // var pdfTimeAndIndexArray;
-                    var pdfTime = [];
-                    var indexes = [];
-                    var pdfindex = 0;
-                    var init = true;
-                    var lessonPhotos;
-                    $(document).ready(function () {
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LecShare</a>
+                <img src="images/LogoEggplantSmall.png" height="53px" width="53px">
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="insertSchedule2.html">Edit Schedule</a></li>
+                            <li><a href="#">My Courses</a></li>
+                            <li><a href="#">Watch Recorded lessons</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"  style="color: #0033ff" id ="hello"></a> </li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+    <link rel="stylesheet" href="lightbox.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="lightbox.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+    <div class="row">
+        <!-- <div class="col-xs-6" id="video-placeholder"></div> -->
+        <div class="col-md-1">
+            <div  id="containerimagespdf" class="col-md-offset-1" >
+                <ul id = "listofimages"></ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-xs-6" id ="imgaeDiv">
+                <img id="image"></<img>
+            </div>
+            <div class="col-xs-6" id="video-placeholder"></div>
+        </div>
+    </div><br>
+
+    <div class="container">
+        <!--  <h3>Class Images:</h3> -->
+        <div class="col-md-12">
+            <div class ="gallery" data-lightbox="gallery">
+                <div class="row">
+                    <div class="imageroll"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="pdfStampsVideos.css" type="text/css">
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        var player,
+                time_update_interval = 3;
+        var videoid;
+        var pdf;
+        var pdfa;
+        /* class pdfTimeAndIndex{
+         var time;
+         var index;
+         };*/
+
+        // var pdfTimeAndIndexArray;
+        var pdfTime = [];
+        var indexes = [];
+        var pdfindex = 0;
+        var init = true;
+        var lessonPhotos;
+        $(document).ready(function () {
             $.ajax({
-            type: 'GET',
-                    dataType: 'JSON',
-                    //data:gameObject.array[num],  
-                    url: "/../restapp/Actions/pdfstamps/hello",
-                    //       timeout: 5000,
-                    error: function () {
+                type: 'GET',
+                dataType: 'JSON',
+                //data:gameObject.array[num],  
+                url: "/../restapp/Actions/pdfstamps/hello",
+                //       timeout: 5000,
+                error: function () {
                     console.error("Failed to send ajax");
-                    },
-                    success: function (pdfstamps) {
+                },
+                success: function (pdfstamps) {
                     //     console.log(pdfstamps);
                     //  $("#hello").html("Hello " + jsonObject + "!");
                     //
@@ -59,130 +131,131 @@ and open the template in the editor.
                     //hud.jsterm.clearOutput(true);
                     //     pdf=JSON.parse(pdfstamps);
                     pdfa = JSON.parse(pdfstamps.pdfPlayer);
-                            lessonPhotos = JSON.parse(pdfstamps.lessonPhotos);
-                            videoid = pdfstamps.videoID;
-                            //      var kaki = JSON.stringify(pdfstamps.pdfPlayer);
-                            //    $.parseJSON(pdfstamps.pdfPlayer);
-                            //    var pdfarray=JSON.parse("[{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/QQiHFIu.png\",\"mMinutes\":0,\"mPage\":1,\"mSeconds\":7},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/Ue4pfGp.png\",\"mMinutes\":0,\"mPage\":2,\"mSeconds\":15},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/RZQMa45.png\",\"mMinutes\":0,\"mPage\":3,\"mSeconds\":25},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/fE53iJl.png\",\"mMinutes\":0,\"mPage\":4,\"mSeconds\":33},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/rOlpdXC.png\",\"mMinutes\":0,\"mPage\":5,\"mSeconds\":39},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/sgokUvM.png\",\"mMinutes\":0,\"mPage\":6,\"mSeconds\":45},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/eeGBFw8.png\",\"mMinutes\":0,\"mPage\":7,\"mSeconds\":56}]");
-                            //var pdf = pdfstamps.pdfPlayer;
-                            //          var pdfarray=JSON.parse("pdfPlayer:[{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/QQiHFIu.png\",\"mMinutes\":0,\"mPage\":1,\"mSeconds\":7},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/Ue4pfGp.png\",\"mMinutes\":0,\"mPage\":2,\"mSeconds\":15},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/RZQMa45.png\",\"mMinutes\":0,\"mPage\":3,\"mSeconds\":25},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/fE53iJl.png\",\"mMinutes\":0,\"mPage\":4,\"mSeconds\":33},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/rOlpdXC.png\",\"mMinutes\":0,\"mPage\":5,\"mSeconds\":39},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/sgokUvM.png\",\"mMinutes\":0,\"mPage\":6,\"mSeconds\":45},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/eeGBFw8.png\",\"mMinutes\":0,\"mPage\":7,\"mSeconds\":56}]");
-                            console.log(lessonPhotos[1]);
-                            $('#image').attr('src', pdfa[0].mImageUrl);
-                            createList();
-                            createTimeArray();
-                            showPhotosTaken();
-                    }
+                    lessonPhotos = JSON.parse(pdfstamps.lessonPhotos);
+                    videoid = pdfstamps.videoID;
+                    //      var kaki = JSON.stringify(pdfstamps.pdfPlayer);
+                    //    $.parseJSON(pdfstamps.pdfPlayer);
+                    //    var pdfarray=JSON.parse("[{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/QQiHFIu.png\",\"mMinutes\":0,\"mPage\":1,\"mSeconds\":7},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/Ue4pfGp.png\",\"mMinutes\":0,\"mPage\":2,\"mSeconds\":15},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/RZQMa45.png\",\"mMinutes\":0,\"mPage\":3,\"mSeconds\":25},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/fE53iJl.png\",\"mMinutes\":0,\"mPage\":4,\"mSeconds\":33},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/rOlpdXC.png\",\"mMinutes\":0,\"mPage\":5,\"mSeconds\":39},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/sgokUvM.png\",\"mMinutes\":0,\"mPage\":6,\"mSeconds\":45},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/eeGBFw8.png\",\"mMinutes\":0,\"mPage\":7,\"mSeconds\":56}]");
+                    //var pdf = pdfstamps.pdfPlayer;
+                    //          var pdfarray=JSON.parse("pdfPlayer:[{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/QQiHFIu.png\",\"mMinutes\":0,\"mPage\":1,\"mSeconds\":7},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/Ue4pfGp.png\",\"mMinutes\":0,\"mPage\":2,\"mSeconds\":15},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/RZQMa45.png\",\"mMinutes\":0,\"mPage\":3,\"mSeconds\":25},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/fE53iJl.png\",\"mMinutes\":0,\"mPage\":4,\"mSeconds\":33},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/rOlpdXC.png\",\"mMinutes\":0,\"mPage\":5,\"mSeconds\":39},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/sgokUvM.png\",\"mMinutes\":0,\"mPage\":6,\"mSeconds\":45},{\"mHours\":0,\"mImageUrl\":\"http://imgur.com/eeGBFw8.png\",\"mMinutes\":0,\"mPage\":7,\"mSeconds\":56}]");
+                    console.log(lessonPhotos[1]);
+                    $('#image').attr('src', pdfa[0].mImageUrl);
+                    createList();
+                    createTimeArray();
+                    showPhotosTaken();
+                }
 
             });
-            });
-                    function showPhotosTaken(){
-                    for (var i = 0; i < lessonPhotos.length; i++){
-                    var res = i + 1;
-                            $('.imageroll').append("<img id=" + res +" onmouseover=bigImg(this) onmouseout=normalImg(this) src=" + lessonPhotos[i] + "></img>");
-                    }
-                    }
-            function bigImg(x) {
+        });
+        function showPhotosTaken() {
+            for (var i = 0; i < lessonPhotos.length; i++) {
+                var res = i + 1;
+                $('.imageroll').append("<a href=" + lessonPhotos[i] + " data-lightbox='classimages'> <img src=" + lessonPhotos[i] + " width='180px' class='img-thumbnail'/></a>");
+
+            }
+        }
+        function bigImg(x) {
             x.style.height = "500px";
             x.style.width = "500px";
-            }
+        }
 
-            function normalImg(x) {
-            x.style.height = "150px";
-                    x.style.width = "150px";
-            }
-            function createTimeArray() {
+        function normalImg(x) {
+            x.style.height = "100px";
+            x.style.width = "100px";
+        }
+        function createTimeArray() {
             var i;
-                    for (i = 0; i < pdfa.length; i++) {
-            //  pdfTime[i]=pdfa[i].mHours+":"+pdfa[i].mMinutes+pdfa[i].mSeconds;
-            var res = pdfa[i].mHours + ":" + pdfa[i].mMinutes + ":";
-                    if (pdfa[i].mSeconds < 10) {
-            res += '0' + pdfa[i].mSeconds;
+            for (i = 0; i < pdfa.length; i++) {
+                //  pdfTime[i]=pdfa[i].mHours+":"+pdfa[i].mMinutes+pdfa[i].mSeconds;
+                var res = pdfa[i].mHours + ":" + pdfa[i].mMinutes + ":";
+                if (pdfa[i].mSeconds < 10) {
+                    res += '0' + pdfa[i].mSeconds;
+                }
+                else {
+                    res += pdfa[i].mSeconds;
+                }
+                pdfTime.push(res);
+                indexes.push(i);
+                console.log(pdfTime[i]);
             }
-            else {
-            res += pdfa[i].mSeconds;
-            }
-            pdfTime.push(res);
-                    indexes.push(i);
-                    console.log(pdfTime[i]);
-            }
-            }
-            function createList() {
+        }
+        function createList() {
             //          console.log("inside creatList");
             var i;
-                    for (i = 0; i < pdfa.length; i++) {
-            var res = i + 1;
-                    $('#listofimages').append('<li onclick=gotosecond(' + i + ')><a>image ' + res + '</a></li>');
+            for (i = 0; i < pdfa.length; i++) {
+                var res = i + 1;
+                $('#listofimages').append('<li id="listpdfimages" onclick=gotosecond(' + i + ')><a>image ' + res + '</a></li>');
             }
-            }
-           
-            function onYouTubeIframeAPIReady() {
-            player = new YT.Player('video-placeholder', {
-            width: 600,
-                    height: 400,
-                    playerVars: {
-                    color: 'white',
-                            // playlist: 'taJ60kskkns,FG0fTKAqZ5g'
-                    },
-                    events: {
-                    onReady: initialize,
-                            //    onStateChange:getPhoto(player.getCurrentTime())
+        }
 
-                    }
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('video-placeholder', {
+                width: 600,
+                height: 400,
+                playerVars: {
+                    color: 'white',
+                    // playlist: 'taJ60kskkns,FG0fTKAqZ5g'
+                },
+                events: {
+                    onReady: initialize,
+                    //    onStateChange:getPhoto(player.getCurrentTime())
+
+                }
             });
-            }
-            function gotosecond(index) {
+        }
+        function gotosecond(index) {
             //           console.log("in gotosecond");
             //           console.log(pdfTime[index]);
             var a = pdfTime[index].split(':'); // split it at the colons
 
 
-// minutes are worth 60 seconds. Hours are worth 60 minutes.
-                    var seconds = ( + a[0]) * 60 * 60 + ( + a[1]) * 60 + ( + a[2]);
-                    player.seekTo(seconds);
-                    pdfindex = index;
-                    $('#image').attr('src', pdfa[index].mImageUrl);
-                    var time = player.getCurrentTime();
-                    var time = time | 0;
-                    console.log(time);
-            }
-            function getPhotos(seconds){
+            // minutes are worth 60 seconds. Hours are worth 60 minutes.
+            var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+            player.seekTo(seconds);
+            pdfindex = index;
+            $('#image').attr('src', pdfa[index].mImageUrl);
+            var time = player.getCurrentTime();
+            var time = time | 0;
+            console.log(time);
+        }
+        function getPhotos(seconds) {
             //  player.
             //        console.log("in get photos");
-            for (i = 0; i < pdfTime.length - 1; i++){
-            var secondsfirst = changeToSeconds(i);
-                    var secondssecond = changeToSeconds(i + 1);
-                    if (secondsfirst < seconds && secondssecond > seconds){
-            $('#image').attr('src', pdfa[i].mImageUrl);
+            for (i = 0; i < pdfTime.length - 1; i++) {
+                var secondsfirst = changeToSeconds(i);
+                var secondssecond = changeToSeconds(i + 1);
+                if (secondsfirst < seconds && secondssecond > seconds) {
+                    $('#image').attr('src', pdfa[i].mImageUrl);
                     return;
-            }
+                }
             }
 
-            }
-            function initialize() {
+        }
+        function initialize() {
 
             // Update the controls on load
             updatePdfImageDisplay();
-                    updateProgressBar();
-                    setPdfindexFromCurrentTime();
-                    // Clear any old interval.
-                    clearInterval(time_update_interval);
-                    //          console.log(pdfa.length);
-                    // Start interval to update elapsed time display and
-                    // the elapsed part of the progress bar every second.
-                    player.loadVideoById(videoid);
-                    //     player.loadVideoById('eyU3bRy2x44');
-                    time_update_interval = setInterval(function () {
-                    updatePdfImageDisplay();
-                            updateProgressBar();
-                            //    setPdfindexFromCurrentTime();
-                    }, 1000);
-                    time_update = setInterval(function () {
-                    setPdfindexFromCurrentTime();
-                    }, 500);
-                    //  $('#volume-input').val(Math.round(player.getVolume()));
-            }
+            updateProgressBar();
+            setPdfindexFromCurrentTime();
+            // Clear any old interval.
+            clearInterval(time_update_interval);
+            //          console.log(pdfa.length);
+            // Start interval to update elapsed time display and
+            // the elapsed part of the progress bar every second.
+            player.loadVideoById(videoid);
+            //     player.loadVideoById('eyU3bRy2x44');
+            time_update_interval = setInterval(function () {
+                updatePdfImageDisplay();
+                updateProgressBar();
+                //    setPdfindexFromCurrentTime();
+            }, 1000);
+            time_update = setInterval(function () {
+                setPdfindexFromCurrentTime();
+            }, 500);
+            //  $('#volume-input').val(Math.round(player.getVolume()));
+        }
 
-            function setPdfindexFromCurrentTime() {
+        function setPdfindexFromCurrentTime() {
             /*   var i;
              for(i=1;i<pdfTime.length;i++){
              //   if(pdfTime.length!=i+1){
@@ -201,7 +274,7 @@ and open the template in the editor.
              //       pdfindex = indexes[i];
              //        return;
              //    }*/
-//
+            //
 
             /*   for(i=0;i<pdfTime.length;i++){
              console.log("the i is "+i);
@@ -223,176 +296,182 @@ and open the template in the editor.
              }
              
              }*/
-            }
-// This function is called by initialize()
-            function updatePdfImageDisplay() {
+        }
+        // This function is called by initialize()
+        function updatePdfImageDisplay() {
             var time = player.getCurrentTime();
-                    time = time | 0;
-                    getPhotos(time);
-                    // Update current time text display.
-                    // var minutes = formatTime(player.getCurrentTime());
-                    //   setPdfindexFromCurrentTime()
-                    //     console.log("in updatePdfImageDisplay" + pdfindex);
-                    /*      if (pdfTime.length !== pdfindex + 1)
-                     {
-                     var secondsfirst = changeToSeconds(pdfindex);
-                     var secondssecond = changeToSeconds(pdfindex + 1);
-                     //              console.log("in if updatePdfImageDisplay");
-                     if (secondsfirst >= player.getCurrentTime() && player.getCurrentTime() < secondssecond) {
-                     $('#image').attr('src', pdfa[pdfindex].mImageUrl);
-                     //                   console.log("in case1 if updatePdfImageDisplay");
-                     //  pdfindex++;
-                     }
-                     else if (player.getCurrentTime() > secondssecond) {//set new image
-                     pdfindex++;
-                     //                 console.log("in case2 if updatePdfImageDisplay");
-                     $('#image').attr('src', pdfa[pdfindex].mImageUrl);
-                     }
-                     }
-                     else {//lastphoto
-                     //              console.log("in else updatePdfImageDisplay");
-                     $('#image').attr('src', pdfa[pdfa.length - 1].mImageUrl);
-                     }*/
+            time = time | 0;
+            getPhotos(time);
+            // Update current time text display.
+            // var minutes = formatTime(player.getCurrentTime());
+            //   setPdfindexFromCurrentTime()
+            //     console.log("in updatePdfImageDisplay" + pdfindex);
+            /*      if (pdfTime.length !== pdfindex + 1)
+             {
+             var secondsfirst = changeToSeconds(pdfindex);
+             var secondssecond = changeToSeconds(pdfindex + 1);
+             //              console.log("in if updatePdfImageDisplay");
+             if (secondsfirst >= player.getCurrentTime() && player.getCurrentTime() < secondssecond) {
+             $('#image').attr('src', pdfa[pdfindex].mImageUrl);
+             //                   console.log("in case1 if updatePdfImageDisplay");
+             //  pdfindex++;
+             }
+             else if (player.getCurrentTime() > secondssecond) {//set new image
+             pdfindex++;
+             //                 console.log("in case2 if updatePdfImageDisplay");
+             $('#image').attr('src', pdfa[pdfindex].mImageUrl);
+             }
+             }
+             else {//lastphoto
+             //              console.log("in else updatePdfImageDisplay");
+             $('#image').attr('src', pdfa[pdfa.length - 1].mImageUrl);
+             }*/
 
 
-            }
+        }
 
-            function changeToSeconds(index) {
+        function changeToSeconds(index) {
             var a = pdfTime[index].split(':'); // split it at the colons
 
-// minutes are worth 60 seconds. Hours are worth 60 minutes.
-                    var seconds = ( + a[0]) * 60 * 60 + ( + a[1]) * 60 + ( + a[2]);
-                    //    console.log(seconds);
-                    return seconds;
-                    //   player.seekTo(seconds);
-                    //   $('#image').attr('src', pdfa[index].mImageUrl);
-            }
-// This function is called by initialize()
-            function updateProgressBar() {
+            // minutes are worth 60 seconds. Hours are worth 60 minutes.
+            var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+            //    console.log(seconds);
+            return seconds;
+            //   player.seekTo(seconds);
+            //   $('#image').attr('src', pdfa[index].mImageUrl);
+        }
+        // This function is called by initialize()
+        function updateProgressBar() {
             // Update the value of our progress bar accordingly.
             //   $('#progress-bar').val((player.getCurrentTime() / player.getDuration()) * 100);
-            }
-            function showPhotoTaken(){
+        }
+        function showPhotoTaken() {
 
-            }
-
-
-
-// Progress bar
-
-            /*   $('#progress-bar').on('mouseup touchend', function (e) {
-             
-             // Calculate the new time for the video.
-             // new time in seconds = total duration in seconds * ( value of range input / 100 )
-             var newTime = player.getDuration() * (e.target.value / 100);
-             
-             // Skip video to new time.
-             player.seekTo(newTime);
-             
-             });*/
+        }
 
 
-// Playback
 
-            /*      $('#play').on('click', function () {
-             player.playVideo();
-             });
-             
-             
-             $('#pause').on('click', function () {
-             player.pauseVideo();
-             });*/
+        // Progress bar
 
-
-// Sound volume
-
-
-            /*    $('#mute-toggle').on('click', function () {
-             var mute_toggle = $(this);
-             
-             if (player.isMuted()) {
-             player.unMute();
-             mute_toggle.text('volume_up');
-             }
-             else {
-             player.mute();
-             mute_toggle.text('volume_off');
-             }
-             });*/
-
-            /*  $('#volume-input').on('change', function () {
-             player.setVolume($(this).val());
-             });*/
+        /*   $('#progress-bar').on('mouseup touchend', function (e) {
+         
+         // Calculate the new time for the video.
+         // new time in seconds = total duration in seconds * ( value of range input / 100 )
+         var newTime = player.getDuration() * (e.target.value / 100);
+         
+         // Skip video to new time.
+         player.seekTo(newTime);
+         
+         });*/
 
 
-// Other options
+        // Playback
+
+        /*      $('#play').on('click', function () {
+         player.playVideo();
+         });
+         
+         
+         $('#pause').on('click', function () {
+         player.pauseVideo();
+         });*/
 
 
-            /*       $('#speed').on('change', function () {
-             player.setPlaybackRate($(this).val());
-             });
-             
-             $('#quality').on('change', function () {
-             player.setPlaybackQuality($(this).val());
-             });*/
+        // Sound volume
 
 
-// Playlist
+        /*    $('#mute-toggle').on('click', function () {
+         var mute_toggle = $(this);
+         
+         if (player.isMuted()) {
+         player.unMute();
+         mute_toggle.text('volume_up');
+         }
+         else {
+         player.mute();
+         mute_toggle.text('volume_off');
+         }
+         });*/
 
-            /*     $('#next').on('click', function () {
-             player.nextVideo()
-             });
-             
-             $('#prev').on('click', function () {
-             player.previousVideo()
-             });*/
-
-
-// Load video
-
-            /*        $('.thumbnail').on('click', function () {
-             
-             var url = $(this).attr('data-video-id');
-             
-             player.cueVideoById(url);
-             
-             });*/
+        /*  $('#volume-input').on('change', function () {
+         player.setVolume($(this).val());
+         });*/
 
 
-// Helper Functions
+        // Other options
 
-            function formatTime(time) {
+
+        /*       $('#speed').on('change', function () {
+         player.setPlaybackRate($(this).val());
+         });
+         
+         $('#quality').on('change', function () {
+         player.setPlaybackQuality($(this).val());
+         });*/
+
+
+        // Playlist
+
+        /*     $('#next').on('click', function () {
+         player.nextVideo()
+         });
+         
+         $('#prev').on('click', function () {
+         player.previousVideo()
+         });*/
+
+
+        // Load video
+
+        /*        $('.thumbnail').on('click', function () {
+         
+         var url = $(this).attr('data-video-id');
+         
+         player.cueVideoById(url);
+         
+         });*/
+
+
+        // Helper Functions
+
+        function formatTime(time) {
             time = Math.round(time);
-                    var hours = Math.floor(time / 3600);
-                    //  var minutes = Math.floor(time / 60),
-                    var minutes = Math.floor((time - (hours * 3600)) / 60);
-                    var seconds = time - (hours * 3600) - (minutes * 60);
-                    seconds = seconds < 10 ? '0' + seconds : seconds;
-                    return hours + ":" + minutes + ":" + seconds;
-            }
-            function getTime(time) {
+            var hours = Math.floor(time / 3600);
+            //  var minutes = Math.floor(time / 60),
+            var minutes = Math.floor((time - (hours * 3600)) / 60);
+            var seconds = time - (hours * 3600) - (minutes * 60);
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            return hours + ":" + minutes + ":" + seconds;
+        }
+        function getTime(time) {
             //   var sec_num = parseInt(this, 10); // don't forget the second param
             var hours = Math.floor(time / 3600);
-                    var minutes = Math.floor(time / 60);
-                    // var seconds = time - (hours * 3600) - (minutes * 60);
-                    seconds = time - minutes * 60;
-                    if (hours < 10) {
-            hours = "0" + hours;
+            var minutes = Math.floor(time / 60);
+            // var seconds = time - (hours * 3600) - (minutes * 60);
+            seconds = time - minutes * 60;
+            if (hours < 10) {
+                hours = "0" + hours;
             }
             if (minutes < 10) {
-            minutes = "0" + minutes;
+                minutes = "0" + minutes;
             }
             if (seconds < 10) {
-            seconds = "0" + seconds;
+                seconds = "0" + seconds;
             }
             //    seconds = seconds < 10 ? '0' + seconds : seconds;
             return hours + ':' + minutes + ':' + seconds;
-            }
+        }
 
 
-            /*    $('pre code').each(function (i, block) {
-             hljs.highlightBlock(block);
-             });*/
-        </script>
-    </body>
+        /*    $('pre code').each(function (i, block) {
+         hljs.highlightBlock(block);
+         });*/
+    </script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="js/jquery-2.2.3.min.js" type="text/javascript"></script>
+    <script src="js/lightbox.min.js" type="text/javascript"></script>
+    <script src="js/lightbox-plus-jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
 </html>

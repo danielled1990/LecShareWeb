@@ -28,7 +28,7 @@ public abstract class  SqlCon {
     static {
         try{
             Class.forName(SQL_DRIVER).newInstance();
-            dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/LecShare","root","DAnielle136");
+            dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/LecShare","root","562345");
     //        dbConnection = DriverManager.getConnection(SERVER_URL);
             s="ok";
             

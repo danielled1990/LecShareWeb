@@ -37,8 +37,6 @@ public class LessonGet extends SqlCon {
                  
                
             }
-
-
             statement.close();
         }
         return lesson;

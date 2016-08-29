@@ -34,7 +34,7 @@ public class pdfstamps {
     @Path("hello")
     public String getLesson() throws SQLException{
         
-        LessonGet lesson = LessonGet.getLessonData(68);
+        LessonGet lesson = LessonGet.getLessonData(1);
         String res = gson.toJson(lesson);
         return res;
     }
