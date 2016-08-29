@@ -62,7 +62,7 @@
 
 
             $(document).ready(function () {
-                webSocketTochat = new WebSocket("ws://localhost:8084/restapp/chat");
+                webSocketTochat = new WebSocket("ws://localhost:8080/restapp/chat");
                 webSocketTochat.onopen = function (event) {
                     // For reasons I can't determine, onopen gets called twice
                     // and the first time event.data is undefined.
@@ -101,7 +101,7 @@
                     writeResponse("WebSocket is already opened.");
                     return;
                 }
-                webSocket = new WebSocket("ws://localhost:8084/restapp/image");
+                webSocket = new WebSocket("ws://localhost:8080/restapp/image");
 
                 webSocket.binaryType = "arraybuffer";
                 /**
@@ -153,7 +153,7 @@
 
             }
             function openSecondSocket() {
-                web2 = new WebSocket("ws://localhost:8084/restapp/image");
+                web2 = new WebSocket("ws://localhost:8080/restapp/image");
                 web2.onopen = function (event) {
                     // For reasons I can't determine, onopen gets called twice
                     // and the first time event.data is undefined.

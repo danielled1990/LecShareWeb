@@ -8,9 +8,14 @@ package restful;
 import Exception.DBException;
 import SqlConncetion.User;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -26,7 +31,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
+import javaClass.test;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author Danielle
@@ -68,7 +76,7 @@ public class Account {
             servletRequest.getSession().setAttribute("username", user.getUsername());
             servletRequest.getSession().setAttribute("password", password);
             servletRequest.getSession().setAttribute("userid", user.getId());
-            servletResponse.sendRedirect("/restapp/newhtml.html");
+            servletResponse.sendRedirect("/restapp/insertSchedule2.html");
             //  Navigator.Navigate(servletRequest, servletResponse, servletContext, "/WEB-INF/view/index.html");
         } catch (SQLException | DBException ex) {
             //   Navigator.Navigate(servletRequest, servletResponse, servletContext, "/WEB-INF/view/error_page.html", ex.getMessage());
@@ -153,6 +161,7 @@ public class Account {
         return name;
     }
     @Path("login2")
+    @Produces({MediaType.TEXT_PLAIN})
     @POST
     public String get( @FormParam("email") String email, @FormParam("password") String password) throws ServletException, IOException {
         boolean loggedIn = false;
@@ -206,6 +215,35 @@ public class Account {
 
         }
         return res;
+    }
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("course")
+    public String  getCourses(String res) throws ServletException, IOException, SQLException, DBException{
+        T  t;
+        t = gson.fromJson(res, T.class);
+        int userid =(int) servletRequest.getSession().getAttribute("userid");
+        if(User.insertCourseToUser(t, userid));
+        //String res;
+     //   res = "kaki";
+        return null;
+    }
+    
+    @POST
+  //  @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("course2")
+    public Response  getCourses2 (String res){
+        JsonObject js = new JsonObject();
+        int i = js.get(res).getAsInt();
+        return null;
+    }
+    //@JsonDeserialize(using = t.class)
+    public static  class T{
+        public String[] course;
+        public String[] semester;
+        public T(){}
     }
     
 }
