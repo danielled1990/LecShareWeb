@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Account {
 
     private Gson gson = new Gson();
-
+    private T  t;
     @Context
     private HttpServletResponse servletResponse;
     @Context
@@ -218,17 +218,28 @@ public class Account {
     }
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.TEXT_PLAIN})
     @Path("course")
     public String  getCourses(String res) throws ServletException, IOException, SQLException, DBException{
-        T  t;
+        
         t = gson.fromJson(res, T.class);
         int userid =(int) servletRequest.getSession().getAttribute("userid");
-        if(User.insertCourseToUser(t, userid));
+       // if(User.insertCourseToUser(t, userid)){
+        User.insertCourseToUser(t, userid);
+            return null;
+     //   }
+     //   return "not ok";
         //String res;
      //   res = "kaki";
-        return null;
+        
     }
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("courseInfo")
+    public String getCourses(){
+        return gson.toJson(t.course);
+    }
+    
     
     @POST
   //  @Consumes({MediaType.APPLICATION_JSON})
